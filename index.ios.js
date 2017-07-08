@@ -12,16 +12,18 @@ import {
   Text,
   View
 } from 'react-native';
+import { Pages } from 'react-native-pages';
 
 
 var host = "http://localhost:8080/" 
 var isDebug = true; // false if running in production mode
 
 
+function addRawData(rawData_doc){
+
+}
 
 export default class Prototype1 extends Component {
-
-
 
   constructor(props) {
     super(props);
@@ -76,21 +78,33 @@ export default class Prototype1 extends Component {
     }
 
     var data = this.state.dataSource.status;
+    var devices = data.device_docs;
+
     console.log(data);
 
+    var viewPages = [];
+
+    for(let i = 0; i < devices.length; i++){
+      viewPages.push(
+        <View key={i} style={styles.container}>
+          <Text style={styles.welcome}>
+            {devices[i].device_data[0].rawData_doc[0].NH3}
+          </Text>
+          <Text style={styles.instructions}>
+            {devices[i].device_data[0].msg}
+          </Text>
+          <Text style={styles.instructions}>
+            {devices[i].device_id}
+          </Text>
+        </View>
+      )
+    }
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          {data.firstName}
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <Pages>
+         {viewPages}                 
+      </Pages>
+
     );
   }
 }
